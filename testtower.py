@@ -30,8 +30,10 @@ def main_part():
 
 
 def front_top():
-    text = Plane.XZ.offset(front_face_offset) * Pos(0,height-text_from_top_offset) * Text("Slant", font_size=10.0, align=(Align.CENTER, Align.MIN))
-    return extrude(text, amount=2)
+    gap = 5.0
+    text1 = Plane.XZ.offset(front_face_offset) * Pos(0,height-text_from_top_offset) * Text("Slant", font_size=10.0, align=(Align.CENTER, Align.MIN))
+    text2 = Plane.XZ.offset(front_face_offset) * Pos(0,height-text_from_top_offset-gap) * Text("3D", font_size=10.0, align=(Align.CENTER, Align.MAX))
+    return Compound([extrude(text1, amount=2), extrude(text2, amount=2)])
 
 def front_middle():
     pass
