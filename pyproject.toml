@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "testtower"
+version = "0.0.1"
+requires-python = ">=3.8"
+
+dependencies = [
+    "build123d",
+   "ipykernel",
+   "jupyter-console",
+   "ocp-tessellate",
+   "ocp-vscode",
+   "k3d"
+]
+
+[tool.setuptools]
+py-modules = []
+
