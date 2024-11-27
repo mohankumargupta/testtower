@@ -63,7 +63,11 @@ def right_top():
 
 def right_bottom():
     shapes = Sketch() + [
-        Plane.YZ.offset(right_face_offset) * Pos((0,20)) * Rectangle(15, 5, align=(Align.CENTER, Align.MAX))
+        Plane.YZ.offset(right_face_offset) * Pos((0,20)) * Rectangle(15, 5, align=(Align.CENTER, Align.MAX)),
+        Plane.YZ.offset(right_face_offset) * Pos((-2.5, 12)) * Circle(1), 
+        Plane.YZ.offset(right_face_offset) * Pos((-2.5, 6)) * Circle(4),
+        Plane.YZ.offset(right_face_offset) * Pos((4, 11)) * Rectangle(4,4),
+        Plane.YZ.offset(right_face_offset) * Pos((4, 6)) * Rectangle(2,2), 
     ]
     return Compound(extrude(shapes, amount=-thickness))
 
