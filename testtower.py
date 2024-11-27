@@ -22,8 +22,8 @@ text_from_top_offset = 10.0 * MM
 # face offsets from origin
 front_face_offset = width/2.0
 back_face_offset = -width/2.0
-left_face_offset = width/2.0
-right_face_offset = -width/2.0
+left_face_offset = -width/2.0
+right_face_offset = width/2.0
 
 def main_part():
     return Compound(Box(length,width,height, align=(Align.CENTER, Align.CENTER, Align.MIN)))
@@ -42,13 +42,23 @@ def front_bottom():
     pass
 
 def front():
-    return Compound([front_top()])
-
+    return  {
+        "add": Compound([front_top()])
+    }
+    
 def back():
     pass
 
 def right():
-    pass
+    return {
+        "subtract": Compound([right_top()])
+    }
+
+def right_top():
+    gap = 5.0
+    text1 = Plane.YZ.offset(right_face_offset) * Pos(0,height-text_from_top_offset) * Text("Slant", font_size=10.0, align=(Align.CENTER, Align.MIN))
+    text2 = Plane.YZ.offset(right_face_offset) * Pos(0,height-text_from_top_offset-gap) * Text("3D", font_size=10.0, align=(Align.CENTER, Align.MAX))
+    return Compound([extrude(text1, amount=-2), extrude(text2, amount=2)])
 
 def left():
     pass
@@ -57,9 +67,12 @@ def top():
     pass
 
 if __name__ == "__main__":
+    front_part = front()
+    right_part = right()
     part = Compound([main_part(),
-                     front()
+                     front_part['add']
                      ])
+    part -= Compound([right_part['subtract']])
     show_object(part)
 
 
