@@ -48,7 +48,17 @@ def front():
     }
     
 def back():
-    pass
+    return { 'subtract': Compound([back_top()])}
+
+def back_top():
+    """
+    filleted hole
+    """
+    #hole = Plane.XZ.rotated((0,0,180)).offset(width/2.0) * Pos(0.0,0.0) * Cylinder(radius=15, height=3, align=(Align.CENTER, Align.MIN, Align.MAX))
+    hole = Plane.XZ.rotated((0,0,180)).offset(width/2.0) * Pos(0.0,height - 15.0*MM) * Hole(radius=8, depth=thickness)
+    edges = hole.edges()
+    print(len(edges))
+    return hole
 
 def right():
     return {
@@ -81,10 +91,14 @@ def top():
 if __name__ == "__main__":
     front_part = front()
     right_part = right()
+    back_part = back()
+
+
     part = Compound([main_part(),
-                     front_part['add']
+                     front_part['add'],
+
                      ])
-    part -= Compound([right_part['subtract']])
+    part -= Compound([right_part['subtract'], back_part['subtract']])
     #part -= right_bottom()
     show_object(part)
 
