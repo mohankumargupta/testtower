@@ -57,8 +57,7 @@ def back_top():
     #hole = Plane.XZ.rotated((0,0,180)).offset(width/2.0) * Pos(0.0,0.0) * Cylinder(radius=15, height=3, align=(Align.CENTER, Align.MIN, Align.MAX))
     hole = Plane.XZ.rotated((0,0,180)).offset(width/2.0) * Pos(0.0,height - 15.0*MM) * Hole(radius=8, depth=thickness)
     edges = hole.edges()
-    print(len(edges))
-    return hole
+    return fillet(edges, radius=2.0*MM)
 
 def right():
     return {
