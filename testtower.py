@@ -8,6 +8,7 @@ length = 25 * MM
 width = 25 * MM
 height = 75 * MM
 minicube_height = 25 * MM
+thickness = 2.5 * MM
 
 # grooves
 groove_profile_width = 1.0 * MM
@@ -51,7 +52,7 @@ def back():
 
 def right():
     return {
-        "subtract": Compound([right_top()])
+        "subtract": Compound([right_top(), right_bottom()])
     }
 
 def right_top():
@@ -59,6 +60,13 @@ def right_top():
     text1 = Plane.YZ.offset(right_face_offset) * Pos(0,height-text_from_top_offset) * Text("Slant", font_size=10.0, align=(Align.CENTER, Align.MIN))
     text2 = Plane.YZ.offset(right_face_offset) * Pos(0,height-text_from_top_offset-gap) * Text("3D", font_size=10.0, align=(Align.CENTER, Align.MAX))
     return Compound([extrude(text1, amount=-2), extrude(text2, amount=2)])
+
+def right_bottom():
+    shapes = Sketch() + [
+        Plane.YZ.offset(right_face_offset) * Pos((0,20)) * Rectangle(15, 5, align=(Align.CENTER, Align.MAX))
+    ]
+    return Compound(extrude(shapes, amount=-thickness))
+
 
 def left():
     pass
@@ -73,6 +81,7 @@ if __name__ == "__main__":
                      front_part['add']
                      ])
     part -= Compound([right_part['subtract']])
+    #part -= right_bottom()
     show_object(part)
 
 
