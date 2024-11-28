@@ -57,7 +57,8 @@ def back_top():
     #hole = Plane.XZ.rotated((0,0,180)).offset(width/2.0) * Pos(0.0,0.0) * Cylinder(radius=15, height=3, align=(Align.CENTER, Align.MIN, Align.MAX))
     hole = Plane.XZ.rotated((0,0,180)).offset(width/2.0) * Pos(0.0,height - 15.0*MM) * Hole(radius=8, depth=thickness)
     edges = hole.edges()
-    return fillet(edges, radius=2.0*MM)
+    circle_edges = edges.filter_by(GeomType.CIRCLE)
+    return fillet(circle_edges[0], radius=1.0*MM)
 
 def right():
     return {
@@ -82,23 +83,43 @@ def right_bottom():
 
 
 def left():
-    pass
+    return { 'subtract': Compound([left_top()]) }
+
+def left_top():
+    """
+    chamfered hole
+    """
+    #hole = Plane.XZ.rotated((0,0,180)).offset(width/2.0) * Pos(0.0,0.0) * Cylinder(radius=15, height=3, align=(Align.CENTER, Align.MIN, Align.MAX))
+    hole = Plane.YZ.offset(-width/2.0) * Pos(0.0,height - 15.0*MM) * Hole(radius=8, depth=thickness)
+    edges = hole.edges()
+    circle_edges = edges.filter_by(GeomType.CIRCLE)
+    #leftmost_edge = min(edges, key=lambda edge: edge.center().X)
+    return chamfer(circle_edges[1], length=thickness)
+
 
 def top():
     pass
 
-if __name__ == "__main__":
+
+def create_main_part():
     front_part = front()
     right_part = right()
     back_part = back()
-
+    left_part = left()
 
     part = Compound([main_part(),
                      front_part['add'],
 
                      ])
-    part -= Compound([right_part['subtract'], back_part['subtract']])
-    #part -= right_bottom()
+    part -= Compound([
+        right_part['subtract'], 
+        back_part['subtract'],
+        left_part['subtract']
+        ])
+    return part
+
+if __name__ == "__main__":
+    part = create_main_part()
     show_object(part)
 
 
