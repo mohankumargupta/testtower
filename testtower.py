@@ -223,15 +223,29 @@ class TowerBuilder:
         #return extrude(plane * Pos(0,35.0*MM) * rects, amount=-2.0*MM)
 
     def left_bottom(self):
+        """
         plane = Plane.YZ.offset(-self.dims.width/2.0)
+        box = Box(6.0*MM, 6.0*MM, 4.0*MM)
+        edges = box.edges().group_by(Axis.X)[0]
+        wedge = chamfer(edges, 1.0*MM)
+        #chamfer(ex18.edges().group_by(Axis.Z)[-1], length=a)
         return plane * Pos(0.0*MM, 11*MM) * Compound([
-            loc * Box(6.0*MM, 6.0*MM, 2.0*MM)
+            loc * wedge
             for loc in GridLocations(6.5*MM, 6.5*MM, 3,3)
         ])
+        """
+        plane = Plane.XZ.offset(self.dims.front_face_offset)
+        l1 = PolarLine((0,0), 2.6, 135.0)
+        l2 = PolarLine((0,6), 2.6, 225.0)
+        profile = Curve() + [
+            l1,
+            l2,
+            Line((0,0), (0,6.0)),
+            Line(l2@1, l1@1)
+        ]
+        face = make_face(profile)
+        return extrude(plane * face, 10.0*MM)
         
-
-
-
 def main():
     """Main function to create and visualize the tower."""
     tower_builder = TowerBuilder()
