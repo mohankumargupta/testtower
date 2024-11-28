@@ -185,7 +185,7 @@ class TowerBuilder:
     def left(self):
         """Create left face components."""
         return { 
-            'subtract': Compound([self.left_top()]) 
+            'subtract': Compound([self.left_top(), self.left_middle()]) 
         }
     
     def left_top(self):
@@ -203,6 +203,23 @@ class TowerBuilder:
         edges = hole.edges()
         circle_edges = edges.filter_by(GeomType.CIRCLE)
         return chamfer(circle_edges[1], length=self.dims.thickness)
+
+    def left_middle(self):
+        plane = Plane.YZ.offset(-self.dims.width/2.0)
+        #rect = plane * Pos(-10.0*MM,45.0*MM) * Rectangle(1.5*MM, 1.5*MM)
+        #spheres = Compound( [
+        #        loc * Sphere(radius=2.5*MM)
+        #        for loc in GridLocations(2.0*MM, 2.0*MM, 1, 1)
+        #]
+        #)
+        return plane * Pos(0*MM, 35.0*MM) * Compound([
+            loc * Sphere(radius=1.0*MM)
+            for loc in GridLocations(2.7, 2.7, 7,9)
+            #Sphere(radius=2.0*MM)
+        ])
+        
+        #return extrude(plane * Pos(0,35.0*MM) * rects, amount=-2.0*MM)
+
 
 def main():
     """Main function to create and visualize the tower."""
