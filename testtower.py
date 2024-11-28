@@ -244,7 +244,7 @@ class TowerBuilder:
             Line(l2@1, l1@1)
         ]
         face = make_face(profile)
-        return extrude(plane * face, 10.0*MM)
+        return extrude(plane * Pos(-12.5*MM,0) * face, -6.0*MM)
         
 def main():
     """Main function to create and visualize the tower."""
