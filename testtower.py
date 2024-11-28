@@ -235,25 +235,20 @@ class TowerBuilder:
         ])
         """
         profile_plane = Plane.XZ.offset(self.dims.front_face_offset)
-        l1 = PolarLine((0,0), 2.6, 135.0)
-        l2 = PolarLine((0,6), 2.6, 225.0)
+        l1 = Line((0,0), (0, 6.0))
+        l2 = Line((-3, 4.5), (-3, 1.5))
+
         profile = Curve() + [
             l1,
             l2,
-            Line((0,0), (0,6.0)),
-            Line(l2@1, l1@1)
+            Line(l1@1, l2@0),
+            Line(l2@1, l1@0)
         ]
-        face = make_face(profile)
-        piece = extrude(profile_plane * Pos(-12.5*MM,0) * face, -6.0*MM)
-        #i = GridLocations(10.0*MM, 10.0*MM, 3,3)
-        #j = i.locations[0].position
-        #(-10,-10,0)
-        #print(j)
-        #return Pos(0,12.5*MM,0) * piece        
-        # plane = Plane.YZ.offset(-self.dims.width/2.0)
+        face = make_face(profile).rotate(Axis.X, 90)
+        piece = extrude(profile_plane * Pos(-12.5*MM,0) * face, -3.0*MM)
         return Compound([
-             Pos((0, loc.position.X + 10.0*MM, loc.position.Y + 9.0)) * piece
-             for loc in GridLocations(6.5*MM, 6.5*MM, 3,3)
+             Pos((0, loc.position.X + 15.0*MM, loc.position.Y + 9.0)) * piece
+             for loc in GridLocations(6.5*MM, 3.5*MM, 3,3)
         
          ])
         
