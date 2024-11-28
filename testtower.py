@@ -234,7 +234,7 @@ class TowerBuilder:
             for loc in GridLocations(6.5*MM, 6.5*MM, 3,3)
         ])
         """
-        plane = Plane.XZ.offset(self.dims.front_face_offset)
+        profile_plane = Plane.XZ.offset(self.dims.front_face_offset)
         l1 = PolarLine((0,0), 2.6, 135.0)
         l2 = PolarLine((0,6), 2.6, 225.0)
         profile = Curve() + [
@@ -244,7 +244,15 @@ class TowerBuilder:
             Line(l2@1, l1@1)
         ]
         face = make_face(profile)
-        return extrude(plane * Pos(-12.5*MM,0) * face, -6.0*MM)
+        piece = extrude(profile_plane * Pos(-12.5*MM,0) * face, -6.0*MM)
+        i = GridLocations(10.0*MM, 10.0*MM, 2,2)
+        return Pos(0,12.5*MM,0) * piece        
+        # plane = Plane.YZ.offset(-self.dims.width/2.0)
+        # return plane * Pos(0*MM, 0.0*MM) * Compound([
+        #     loc * piece
+        #     for loc in GridLocations(10.0*MM, 10.0*MM, 2,2)
+        
+        # ])
         
 def main():
     """Main function to create and visualize the tower."""
