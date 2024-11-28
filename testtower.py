@@ -224,7 +224,7 @@ class TowerBuilder:
 
     def left_bottom(self):
         plane = Plane.YZ.offset(-self.dims.width/2.0)
-        return plane * Pos(0.0*MM, 10.0*MM) * Compound([
+        return plane * Pos(0.0*MM, 11*MM) * Compound([
             loc * Box(6.0*MM, 6.0*MM, 2.0*MM)
             for loc in GridLocations(6.5*MM, 6.5*MM, 3,3)
         ])
