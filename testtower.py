@@ -245,7 +245,10 @@ class TowerBuilder:
         ]
         face = make_face(profile)
         piece = extrude(profile_plane * Pos(-12.5*MM,0) * face, -6.0*MM)
-        i = GridLocations(10.0*MM, 10.0*MM, 2,2)
+        i = GridLocations(10.0*MM, 10.0*MM, 3,3)
+        j = i.locations[0].position
+        #(-10,-10,0)
+        print(j)
         return Pos(0,12.5*MM,0) * piece        
         # plane = Plane.YZ.offset(-self.dims.width/2.0)
         # return plane * Pos(0*MM, 0.0*MM) * Compound([
