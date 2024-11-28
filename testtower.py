@@ -152,6 +152,7 @@ class TowerBuilder:
         """Create back face components."""
         return { 
             'subtract': Compound([self.back_top(), self.back_middle()]),
+            
         }
     
     def back_top(self):
@@ -173,9 +174,12 @@ class TowerBuilder:
     
     def back_middle(self):
         plane = Plane.XZ.rotated((0,0,180)).offset(self.dims.width/2.0)
-        rect = plane * Pos(10.0*MM,10.0*MM) * Rectangle(1.5*MM, 1.5*MM)
-        
-        return extrude(rect, amount=-2.0*MM)
+        #rect = plane * Pos(-10.0*MM,45.0*MM) * Rectangle(1.5*MM, 1.5*MM)
+        rects = Sketch() + [
+                loc * Rectangle(1.5*MM, 1.5*MM)
+                for loc in GridLocations(2.0*MM, 2.0*MM, 9, 11)
+        ]
+        return extrude(plane * Pos(0,35.0*MM) * rects, amount=-2.0*MM)
 
 
     def left(self):
