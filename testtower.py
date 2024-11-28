@@ -1,5 +1,5 @@
 from build123d import *
-from ocp_vscode import *
+
 
 # parameters
 
@@ -120,6 +120,7 @@ def create_main_part():
 
 if __name__ == "__main__":
     part = create_main_part()
+    from ocp_vscode import *
     show_object(part)
 
 
