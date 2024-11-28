@@ -185,7 +185,9 @@ class TowerBuilder:
     def left(self):
         """Create left face components."""
         return { 
+            'add': Compound([self.left_bottom()]),
             'subtract': Compound([self.left_top(), self.left_middle()]) 
+        
         }
     
     def left_top(self):
@@ -219,6 +221,15 @@ class TowerBuilder:
         ])
         
         #return extrude(plane * Pos(0,35.0*MM) * rects, amount=-2.0*MM)
+
+    def left_bottom(self):
+        plane = Plane.YZ.offset(-self.dims.width/2.0)
+        return plane * Pos(0.0*MM, 10.0*MM) * Compound([
+            loc * Box(6.0*MM, 6.0*MM, 2.0*MM)
+            for loc in GridLocations(6.5*MM, 6.5*MM, 3,3)
+        ])
+        
+
 
 
 def main():
