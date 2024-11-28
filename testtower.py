@@ -123,7 +123,7 @@ class TowerBuilder:
             Pos(0, self.dims.height - self.dims.text_from_top_offset - gap) * 
             Text("3D", font_size=10.0, align=(Align.CENTER, Align.MAX))
         )
-        return Compound([extrude(text1, amount=-2), extrude(text2, amount=2)])
+        return Compound([extrude(text1, amount=-2), extrude(text2, amount=-2)])
     
     def right_bottom(self):
         """Create bottom features on the right face."""
