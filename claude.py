@@ -125,6 +125,7 @@ class TowerBuilder:
     
     def right_bottom(self):
         """Create bottom features on the right face."""
+        """
         shapes = Sketch() + [
             Plane.YZ.offset(self.dims.right_face_offset) * Pos((0, 20)) * 
                 Rectangle(15, 5, align=(Align.CENTER, Align.MAX)),
@@ -133,6 +134,16 @@ class TowerBuilder:
             Plane.YZ.offset(self.dims.right_face_offset) * Pos((4, 11)) * Rectangle(4, 4),
             Plane.YZ.offset(self.dims.right_face_offset) * Pos((4, 6)) * Rectangle(2, 2), 
         ]
+        """
+        shapes_xy = Sketch() + [
+            Pos((0, 20)) * 
+            Rectangle(15, 5, align=(Align.CENTER, Align.MAX)),
+            Pos((-2.5, 12)) * Circle(1), 
+            Pos((-2.5, 6)) * Circle(4),
+            Pos((4, 11)) * Rectangle(4, 4),
+            Pos((4, 6)) * Rectangle(2, 2), 
+        ]
+        shapes = Plane.YZ.offset(self.dims.right_face_offset) * shapes_xy
         return Compound(extrude(shapes, amount=-self.dims.thickness))
     
     def back(self):
