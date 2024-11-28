@@ -58,7 +58,7 @@ def back_top():
     hole = Plane.XZ.rotated((0,0,180)).offset(width/2.0) * Pos(0.0,height - 15.0*MM) * Hole(radius=8, depth=thickness)
     edges = hole.edges()
     circle_edges = edges.filter_by(GeomType.CIRCLE)
-    return fillet(circle_edges[0], radius=1.0*MM)
+    return fillet(circle_edges, radius=1.5*MM)
 
 def right():
     return {
